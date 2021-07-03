@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { ActivityIndicator, Image, Platform , View, Text, TextInput, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { ActivityIndicator, Image, Platform , View, Text, TextInput, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, ScrollView } from "react-native";
 
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import * as ImagePicker from 'expo-image-picker';
@@ -50,8 +50,8 @@ export default function SignUpScreen({ navigation }) {
 
     const FormattedImage = await ImageManipulator.manipulateAsync(
       cameraResponse.localUri || cameraResponse.uri,
-      [{resize: { width: 300, height: 300, }}],
-      {compress: 0.5, base64: true}
+      [{resize: { width: 400, height: 400, }}],
+      {compress: 0.9, base64: true}
     );
 
     setImageData(FormattedImage.base64);
@@ -130,39 +130,41 @@ export default function SignUpScreen({ navigation }) {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={loginStyles.container}>
-        <Text style={loginStyles.title}>Register new account</Text>
+      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={loginStyles.container}>
+        <ScrollView>
+          <Text style={loginStyles.title}>Register new account</Text>
 
-        <Text style={loginStyles.fieldTitle}>Username</Text>
-        <TextInput style={loginStyles.input} autoCapitalize="none" autoCorrect={false} value={username} onChangeText={(input) => setUsername(input)} underlineColorAndroid={usernameError ? "red" : "transparent"} />
-        
-        <Text style={loginStyles.fieldTitle}>Password</Text>
-        <TextInput style={loginStyles.input} autoCapitalize="none" autoCompleteType="password" autoCorrect={false} secureTextEntry={true} value={password} onChangeText={(input) => setPassword(input)} underlineColorAndroid={passwordError ? "red" : "transparent"} />
-        
-        <Text style={loginStyles.fieldTitle}>Display Name</Text>
-        <TextInput style={loginStyles.input} autoCapitalize="none" autoCorrect={false} value={nickname} onChangeText={(input) => setNickname(input)} underlineColorAndroid={nicknameError ? "red" : "transparent"} />
- 
-        <Text style={loginStyles.fieldTitle}>Display Pic</Text>
-        <View style={{flexDirection:"row", justifyContent: "space-between"}}>
-          <View style={{width: 130, height: 130, borderWidth: 3, borderColor: ProfilePicError ? "red" : "black", alignItems: 'center', justifyContent: 'center',}} >
-            {imageData == null ?
-              <MaterialCommunityIcons name="face" size={72} color="black" /> :
-              <Image source={{ uri: 'data:image/jpeg;base64,' + imageData }} style={{ width: 120, height: 120 }} borderRadius={60} />}
+          <Text style={loginStyles.fieldTitle}>Username</Text>
+          <TextInput style={loginStyles.input} autoCapitalize="none" autoCorrect={false} value={username} onChangeText={(input) => setUsername(input)} underlineColorAndroid={usernameError ? "red" : "transparent"} />
+          
+          <Text style={loginStyles.fieldTitle}>Password</Text>
+          <TextInput style={loginStyles.input} autoCapitalize="none" autoCompleteType="password" autoCorrect={false} secureTextEntry={true} value={password} onChangeText={(input) => setPassword(input)} underlineColorAndroid={passwordError ? "red" : "transparent"} />
+          
+          <Text style={loginStyles.fieldTitle}>Display Name</Text>
+          <TextInput style={loginStyles.input} autoCapitalize="none" autoCorrect={false} value={nickname} onChangeText={(input) => setNickname(input)} underlineColorAndroid={nicknameError ? "red" : "transparent"} />
+  
+          <Text style={loginStyles.fieldTitle}>Display Pic</Text>
+          <View style={{flexDirection:"row", justifyContent: "space-between"}}>
+            <View style={{width: 130, height: 130, borderWidth: 3, borderColor: ProfilePicError ? "red" : "black", alignItems: 'center', justifyContent: 'center',}} >
+              {imageData == null ?
+                <MaterialCommunityIcons name="face" size={72} color="black" /> :
+                <Image source={{ uri: 'data:image/jpeg;base64,' + imageData }} style={{ width: 120, height: 120 }} borderRadius={60} />}
+            </View>
+            <TouchableOpacity style={styles.CameraButton} onPress={LaunchCamera}>
+              <MaterialCommunityIcons name="camera-plus" size={72} color="black" />
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity style={styles.CameraButton} onPress={LaunchCamera}>
-            <MaterialCommunityIcons name="camera-plus" size={72} color="black" />
-          </TouchableOpacity>
-        </View>
-        
-        <View style={{ flexDirection: "row", marginTop: 20 }}>
-          <TouchableOpacity onPress={SignUp} style={loginStyles.loginButton}>
-            <Text style={loginStyles.buttonText}>Register</Text>
-          </TouchableOpacity>
-          {loading ? (<ActivityIndicator style={{ marginLeft: 20, marginBottom: 20 }} size="large" color="#0000ff" />) : null}
-        </View>
-        
-        <Text style={loginStyles.errorText}>{errorText}</Text>
-      </View>
+          
+          <View style={{ flexDirection: "row", marginTop: 20 }}>
+            <TouchableOpacity onPress={SignUp} style={loginStyles.loginButton}>
+              <Text style={loginStyles.buttonText}>Register</Text>
+            </TouchableOpacity>
+            {loading ? (<ActivityIndicator style={{ marginLeft: 20, marginBottom: 20 }} size="large" color="#0000ff" />) : null}
+          </View>
+          
+          <Text style={loginStyles.errorText}>{errorText}</Text>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
 }

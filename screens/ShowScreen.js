@@ -7,6 +7,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
 const API_GETUSER = "https://weihong1988.pythonanywhere.com/getuser";
+const IMAGE_URL = "https://weihong1988.pythonanywhere.com/static/";
 
 export default function ShowScreen({ route, navigation }) {
   const posts = route.params;
@@ -66,9 +67,6 @@ export default function ShowScreen({ route, navigation }) {
     navigation.navigate('AuthStack', { screen: 'SignIn' });
   }
 
-
-
-
   return (
     <View style={commonStyles.BlogContainer}>
       { isLoading ? 
@@ -79,7 +77,7 @@ export default function ShowScreen({ route, navigation }) {
       ) : (
         <View>
           <View style={{flexDirection: "row", alignItems: "center", marginBottom: 10,}}>
-            <Image source={{ uri: 'data:image/jpeg;base64,' + profilePic }} style={{ width: 80, height: 80 }} borderRadius={40} />
+            <Image source={{ uri: IMAGE_URL + profilePic }} style={{ width: 80, height: 80 }} borderRadius={40} />
             <View>
               <Text style={[commonStyles.title, {marginLeft: 20}]}>{nickname}</Text>
               <Text style={styles.postDateTime}>Posted on: {postDateTimeString}</Text>
@@ -88,7 +86,7 @@ export default function ShowScreen({ route, navigation }) {
           </View>
 
           <Text style={[commonStyles.title, {textDecorationLine: "underline"}]}>{posts.title}</Text>
-          <Image source={{ uri: 'data:image/jpeg;base64,' + posts.image }} style={{ width: screenWidth, height: screenWidth }} />
+          <Image source={{ uri: IMAGE_URL + posts.image }} style={{ width: screenWidth, height: screenWidth }} />
           <Text style={commonStyles.descriptionText}>{posts.description}</Text>
         </View>
       )}

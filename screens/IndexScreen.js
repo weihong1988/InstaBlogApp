@@ -7,6 +7,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
 const API_ALLPOSTS = "https://weihong1988.pythonanywhere.com/posts";
+const IMAGE_URL = "https://weihong1988.pythonanywhere.com/static/";
 
 export default function IndexScreen({ navigation }) {
   const [imageArray, setImageArray] = useState([]);
@@ -73,7 +74,7 @@ export default function IndexScreen({ navigation }) {
   function renderItem({ item }) {
     return (
       <TouchableOpacity onPress={() => {navigation.navigate("Show", item)}}>
-        <Image source={{ uri: 'data:image/jpeg;base64,' + item.image }} style={{ width: tileSize, height: tileSize, margin: 2, borderColor: "black", borderWidth: 2, }} />
+        <Image source={{ uri: IMAGE_URL + item.image }} style={{ width: tileSize, height: tileSize, margin: 2, borderColor: "black", borderWidth: 2, }} />
       </TouchableOpacity>
     );
   }

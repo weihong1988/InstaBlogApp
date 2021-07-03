@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { ActivityIndicator, View, Text, TextInput, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { ActivityIndicator, View, Text, TextInput, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, ScrollView } from "react-native";
 
 import { loginStyles } from "../styles/loginStyles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -46,7 +46,7 @@ export default function SignInScreen({ navigation }) {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={loginStyles.container}>
+      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={loginStyles.container}>
         <Text style={loginStyles.title}>Sign in to blog</Text>
         <Text style={loginStyles.fieldTitle}>Username</Text>
         <TextInput
@@ -77,7 +77,7 @@ export default function SignInScreen({ navigation }) {
           {loading ? (<ActivityIndicator style={{ marginLeft: 20, marginBottom: 20 }} size="large" color="#0000ff" />) : null}
         </View>    
         <Text style={loginStyles.errorText}>{errorText}</Text>
-      </View>
+      </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
 }

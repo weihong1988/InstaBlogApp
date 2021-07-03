@@ -6,11 +6,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
 const API_WHOAMI = "https://weihong1988.pythonanywhere.com/whoami";
+const IMAGE_URL = "https://weihong1988.pythonanywhere.com/static/";
 
 export default function AccountScreen({ navigation }) {
   const [username, setUsername] = useState("");
   const [nickname, setNickname] = useState("");
-  const [profilePic, setprofilePic] = useState(null);
+  const [profilePic, setprofilePic] = useState("");
   const [joinDate, setJoinDate] = useState("");
 
   const [isLoading, setIsLoading] = useState(true);
@@ -69,7 +70,7 @@ export default function AccountScreen({ navigation }) {
       { isLoading ? (<ActivityIndicator size="large" color="#0000ff" />) : 
       (
         <View style={{alignItems: "center"}}>
-          <Image source={{ uri: 'data:image/jpeg;base64,' + profilePic }} style={{ width: 200, height: 200, marginTop: 12,}} borderRadius={100} />
+          <Image source={{ uri: IMAGE_URL + profilePic }} style={{ width: 200, height: 200, marginTop: 12,}} borderRadius={100} />
           <Text style={[commonStyles.title, {fontStyle: "italic", color: "blue"}]}>{nickname}</Text>
           <Text style={commonStyles.subTitle}>Username: {username}</Text>
           <Text style={commonStyles.subDesc}>Member Since: {joinDate}</Text>
